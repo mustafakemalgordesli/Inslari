@@ -1,5 +1,6 @@
 using Persistence;
 using Application;
+using Infrastructure;
 using WebAPI.Extensions;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure();
 
 builder.Services.AddProblemDetails();
 builder.Services.AddHealthChecks();
