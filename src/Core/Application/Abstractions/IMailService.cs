@@ -5,10 +5,17 @@ public interface IMailService
     Task<bool> Send(EmailMetadata metadata);
 }
 
-public class EmailMetadata(string toAdress, string subject, string? body = "", string? attachmentPath = "")
+public interface IMailService<TModel> : IMailService where TModel : class
 {
-    public string ToAddress { get; set; } = toAdress;
-    public string Subject { get; set; } = subject;
-    public string? Body { get; set; } = body;
-    public string? AttachmentPath { get; set; } = attachmentPath;
+    Task<bool> SendUsingTemplate(EmailMetadata metadata,  TModel model, string templateName);
+}
+
+public record EmailMetadata(
+    string ToAddress,
+    string Subject,
+    string? Body = "",
+    List<string>? AttachmentPathList = null
+)
+{
+    public List<string> AttachmentPathList { get; init; } = AttachmentPathList ?? new List<string>();
 }

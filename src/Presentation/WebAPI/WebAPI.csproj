@@ -7,7 +7,12 @@
     <UserSecretsId>ccd44cc5-85ff-4f61-a6f6-edb00a3a8661</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..</DockerfileContext>
+	<PreserveCompilationContext>true</PreserveCompilationContext>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="StoredFiles\MailTemplates\MailConfirmationTemplate.cshtml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
@@ -20,7 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="StoredFiles\MailTemplates\MailConfirmationTemplate.cshtml">
+      <SubType>Component</SubType>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

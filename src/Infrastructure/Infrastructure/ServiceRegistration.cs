@@ -18,9 +18,11 @@ public static class ServiceRegistration
         EmailConfiguration emailSettings = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>() ?? throw new ArgumentException("Email configuration must be empty");
 
         services.AddFluentEmail(emailSettings.From)
+            .AddRazorRenderer()
             .AddSmtpSender(emailSettings.SmtpServer, emailSettings.Port, emailSettings.UserName, emailSettings.Password);
 
         services.AddScoped<IMailService, MailService>();
+        services.AddScoped(typeof(IMailService<>), typeof(MailService<>));
 
     }
 }

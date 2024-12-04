@@ -23,6 +23,9 @@ builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
+string templateDirectory = Path.Combine(builder.Environment.ContentRootPath, "StoredFiles");
+builder.Services.AddSingleton<ITemplateProvider>(new TemplateProvider(templateDirectory));
+
 builder.Services.AddProblemDetails();
 builder.Services.AddHealthChecks();
 
