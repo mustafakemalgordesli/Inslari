@@ -1,3 +1,4 @@
+using Domain;
 using Persistence;
 using Application;
 using Infrastructure;
@@ -17,15 +18,16 @@ builder.Services.AddControllers()
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-
+builder.Services.AddDomain(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddPersistence(builder.Configuration);
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddProblemDetails();
 builder.Services.AddHealthChecks();
 
 builder.Services.ConfigureCors(builder.Configuration, MyAllowSpecificOrigins);
+builder.Services.ConfigureAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
