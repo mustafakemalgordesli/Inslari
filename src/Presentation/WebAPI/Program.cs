@@ -4,8 +4,6 @@ using Application;
 using Infrastructure;
 using WebAPI.Extensions;
 using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
 
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -33,32 +31,9 @@ builder.Services.AddHealthChecks();
 
 builder.Services.ConfigureCors(builder.Configuration, MyAllowSpecificOrigins);
 builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.ConfigureRateLimiter();
+builder.Services.ConfigureCompression();
 
-builder.Services.AddRateLimiter(options =>
-{
-    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>((httpContext) =>
-    {
-        var route = httpContext.GetEndpoint()?.DisplayName ?? "default";
-        var partitionKey = $"{route}:{httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString()}";
-
-        return RateLimitPartition.GetFixedWindowLimiter(
-               partitionKey: partitionKey,
-               factory: partition => new FixedWindowRateLimiterOptions
-               {
-                    AutoReplenishment = true,
-                    PermitLimit = 10,
-                    Window = TimeSpan.FromMinutes(1)
-               });
-    });
-
-    options.AddFixedWindowLimiter("Fixed", config =>
-    {
-        config.PermitLimit = 5;
-        config.Window = TimeSpan.FromSeconds(10);
-        config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        config.QueueLimit = 2; 
-    });
-});
 
 var app = builder.Build();
 
@@ -67,6 +42,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseResponseCompression();
 
 app.UseRateLimiter();
 
