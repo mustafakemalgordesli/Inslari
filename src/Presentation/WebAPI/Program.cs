@@ -33,6 +33,7 @@ builder.Services.ConfigureCors(builder.Configuration, MyAllowSpecificOrigins);
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureRateLimiter();
 builder.Services.ConfigureCompression();
+builder.Services.ConfigureLocalization();
 
 
 var app = builder.Build();
@@ -42,6 +43,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseRequestLocalization(LocalizationConfig.GetLocalizationOptions());
 
 app.UseResponseCompression();
 
