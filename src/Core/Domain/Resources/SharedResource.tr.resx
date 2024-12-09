@@ -120,4 +120,16 @@
   <data name="Error" xml:space="preserve">
     <value>Sistemimizde bir hata oluştu.</value>
   </data>
+  <data name="User.Exists" xml:space="preserve">
+    <value>Kullanıcı zaten mevcut.</value>
+  </data>
+  <data name="User.InvalidUsername" xml:space="preserve">
+    <value>Hatalı kullanıcı adı girdiniz.</value>
+  </data>
+  <data name="User.NotFound" xml:space="preserve">
+    <value>Kullanıcı bulunamadı!</value>
+  </data>
+  <data name="User.PasswordWrong" xml:space="preserve">
+    <value>Şifre hatalı!</value>
+  </data>
 </root>

@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Domain.Entities;
 using Domain.Common;
+using MediatR;
 
 namespace Persistence.Contexts;
 
-public class InslariDbContext(DbContextOptions<InslariDbContext> dbContextOptions)
+public class InslariDbContext(DbContextOptions<InslariDbContext> dbContextOptions, IMediator _mediator)
     : DbContext(dbContextOptions)
 {
     public const string DEFAULT_SCHEMA = "dbo";
@@ -31,16 +32,27 @@ public class InslariDbContext(DbContextOptions<InslariDbContext> dbContextOption
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken = default)
     {
         OnBeforeSave();
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        await PublishDomainEventsAsync();
+
+        return result;
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
         OnBeforeSave();
-        return base.SaveChangesAsync(cancellationToken);
+
+        var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
+        await PublishDomainEventsAsync();
+
+        return result;
     }
 
     private void OnBeforeSave()
@@ -59,6 +71,27 @@ public class InslariDbContext(DbContextOptions<InslariDbContext> dbContextOption
                 entity.IsDeleted = false;
             if (entity.CreatedAt == DateTime.MinValue)
                 entity.CreatedAt = DateTime.Now;
+        }
+    }
+
+    private async Task PublishDomainEventsAsync()
+    {
+        var domainEvents = ChangeTracker
+            .Entries<BaseEntity>()
+            .Select(entry => entry.Entity)
+            .SelectMany(entity =>
+            {
+                var domainEvents = entity.GetDomainEvents();
+
+                entity.ClearDomainEvents();
+
+                return domainEvents;
+            })
+            .ToList();
+
+        foreach (var domainEvent in domainEvents)
+        {
+           await _mediator.Publish(domainEvent);
         }
     }
 }

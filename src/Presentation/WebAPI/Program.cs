@@ -4,6 +4,9 @@ using Application;
 using Infrastructure;
 using WebAPI.Extensions;
 using System.Text.Json.Serialization;
+using Domain.Resources;
+using Microsoft.Extensions.Localization;
+using Domain.Abstractions;
 
 string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -45,6 +48,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRequestLocalization(LocalizationConfig.GetLocalizationOptions());
+
+var localizer = app.Services.GetRequiredService<IStringLocalizer<SharedResource>>();
+StringLocalizer.Configure(localizer);
 
 app.UseResponseCompression();
 
