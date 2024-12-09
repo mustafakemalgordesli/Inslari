@@ -37,6 +37,7 @@ builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureRateLimiter();
 builder.Services.ConfigureCompression();
 builder.Services.ConfigureLocalization();
+builder.Services.CConfigureMassTransit(builder.Configuration);
 
 
 var app = builder.Build();

@@ -1,6 +1,6 @@
-﻿namespace Domain.Common;
+﻿namespace Domain.Options;
 
-public class EmailConfiguration
+public class EmailConfigurationOptions
 {
     public required string From { get; set; }
     public required string SmtpServer { get; set; }

@@ -33,6 +33,8 @@ public class RegisterCommandHandler(IUserRepository userRepository, IUnitOfWork 
         };
 
         user = userRepository.Add(user);
+
+        user?.UserRegistered();
         
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

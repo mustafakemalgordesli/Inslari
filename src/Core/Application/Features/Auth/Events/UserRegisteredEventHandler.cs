@@ -1,12 +1,13 @@
 ﻿using Domain.DomainEvents;
+using MassTransit;
 using MediatR;
 
 namespace Application.Features.Auth.Events;
 
-public sealed class UserRegisteredEventHandler : INotificationHandler<UserRegisteredDomainEvent>
+public sealed class UserRegisteredEventHandler(IBus bus) : INotificationHandler<UserRegisteredDomainEvent>
 {
-    public Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
     {
-        return Task.CompletedTask;
+        await bus.Publish(notification, cancellationToken);
     }
 }

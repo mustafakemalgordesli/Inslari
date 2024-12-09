@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +8,6 @@ public static class ServiceRegistration
 {
     public static void AddDomain(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
+        services.Configure<EmailConfigurationOptions>(configuration.GetSection("EmailConfiguration"));
     }
 }

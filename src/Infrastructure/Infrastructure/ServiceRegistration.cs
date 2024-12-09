@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions;
-using Domain.Common;
+using Domain.Options;
 using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +15,7 @@ public static class ServiceRegistration
 
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.Position));
 
-        EmailConfiguration emailSettings = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>() ?? throw new ArgumentException("Email configuration must be empty");
+        EmailConfigurationOptions emailSettings = configuration.GetSection("EmailConfiguration").Get<EmailConfigurationOptions>() ?? throw new ArgumentException("Email configuration must be empty");
 
         services.AddFluentEmail(emailSettings.From)
             .AddRazorRenderer()
