@@ -1,15 +1,23 @@
-﻿using Domain.DomainEvents;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+using Application.Abstractions;
+using Domain.DomainEvents;
+using Domain.MailTemplates;
+using Domain.Resources;
 using MassTransit;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Localization;
 
 namespace Infrastructure.EventConsumers;
 
-public class UserRegisteredConsumer(ILogger<UserRegisteredConsumer> logger) : IConsumer<UserRegisteredDomainEvent>
+public class UserRegisteredConsumer(IMailService<MailConfirmationModel> mailService, IStringLocalizer<SharedResource> localizer) : IConsumer<UserRegisteredDomainEvent>
 {
-    public Task Consume(ConsumeContext<UserRegisteredDomainEvent> context)
+    public async Task Consume(ConsumeContext<UserRegisteredDomainEvent> context)
     {
-        Thread.Sleep(10000);
-        logger.LogInformation("{Consumer}: {Message}", nameof(UserRegisteredConsumer), context.Message.Id);
-        return Task.CompletedTask;
+        var culture = "tr";
+        var cultureInfo = new CultureInfo(culture);
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+
+        var res = await mailService.SendUsingTemplate(new EmailMetadata(context.Message.Email, localizer["MailConfirmation"].Value), new MailConfirmationModel(localizer, culture, "mustafa"), "MailConfirmationTemplate.cshtml");
     }
 }

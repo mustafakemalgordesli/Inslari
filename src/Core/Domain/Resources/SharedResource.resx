@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountMsg" xml:space="preserve">
+    <value>This process is necessary to keep your account safe and to take full advantage of our services.</value>
+  </data>
+  <data name="BtnWorkMsg" xml:space="preserve">
+    <value>If the button does not work, you can copy and paste the link below into your browser.</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Internal server error.</value>
+  </data>
+  <data name="ExpirationTime" xml:space="preserve">
+    <value>24 hours</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="IgnoreMsg" xml:space="preserve">
+    <value>If you did not initiate this email, please ignore this message.</value>
+  </data>
+  <data name="MailConfirmation" xml:space="preserve">
+    <value>Email Verification</value>
+  </data>
+  <data name="ThankForCreateAccount" xml:space="preserve">
+    <value>Thank you for successfully creating your account!</value>
+  </data>
+  <data name="ThanksMsg" xml:space="preserve">
+    <value>Thanks</value>
   </data>
   <data name="User.Exists" xml:space="preserve">
     <value>User already exists</value>
@@ -131,5 +155,11 @@
   </data>
   <data name="User.PasswordWrong" xml:space="preserve">
     <value>Password is wrong!</value>
+  </data>
+  <data name="ValidTimeHtml" xml:space="preserve">
+    <value>This link is valid for 24 hours.</value>
+  </data>
+  <data name="VerifyMyMail" xml:space="preserve">
+    <value>Verify My Email Address</value>
   </data>
 </root>

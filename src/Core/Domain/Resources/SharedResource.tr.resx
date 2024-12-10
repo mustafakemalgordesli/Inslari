@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountMsg" xml:space="preserve">
+    <value>Bu işlem hesabınızı güvende tutmak ve hizmetlerimizden tam olarak yararlanabilmeniz için gereklidir.</value>
+  </data>
+  <data name="BtnWorkMsg" xml:space="preserve">
+    <value>Eğer buton çalışmazsa, aşağıdaki bağlantıyı tarayıcınıza kopyalayıp yapıştırabilirsiniz</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Sistemimizde bir hata oluştu.</value>
+  </data>
+  <data name="ExpirationTime" xml:space="preserve">
+    <value>24 saat</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Merhaba</value>
+  </data>
+  <data name="IgnoreMsg" xml:space="preserve">
+    <value>Eğer bu e-postayı siz başlatmadıysanız, lütfen bu mesajı göz ardı edin.</value>
+  </data>
+  <data name="MailConfirmation" xml:space="preserve">
+    <value>E-posta Adresinizi Doğrulayın</value>
+  </data>
+  <data name="ThankForCreateAccount" xml:space="preserve">
+    <value>Hesabınızı başarıyla oluşturduğunuz için teşekkür ederiz!</value>
+  </data>
+  <data name="ThanksMsg" xml:space="preserve">
+    <value>Teşekkürler, {0} Ekibi</value>
   </data>
   <data name="User.Exists" xml:space="preserve">
     <value>Kullanıcı zaten mevcut.</value>
@@ -131,5 +155,11 @@
   </data>
   <data name="User.PasswordWrong" xml:space="preserve">
     <value>Şifre hatalı!</value>
+  </data>
+  <data name="ValidTimeHtml" xml:space="preserve">
+    <value>Bu bağlantı {0} geçerlidir.</value>
+  </data>
+  <data name="VerifyMyMail" xml:space="preserve">
+    <value>E-posta Adresimi Doğrula</value>
   </data>
 </root>

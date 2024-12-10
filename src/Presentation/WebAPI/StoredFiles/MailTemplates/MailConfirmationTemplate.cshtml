@@ -1,11 +1,11 @@
 ﻿@model Domain.MailTemplates.MailConfirmationModel
 
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="@Model.Culture">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-posta Doğrulama</title>
+    <title>@Model.MailConfirmation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,24 +71,25 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>E-posta Adresinizi Doğrulayın</h1>
+            <h1>@Model.MailConfirmation</h1>
         </div>
         <div class="email-content">
-            <p>Merhaba <strong>@Model.Username</strong>,</p>
-            <p>Hesabınızı başarıyla oluşturduğunuz için teşekkür ederiz! E-posta adresinizi doğrulamak için aşağıdaki butona tıklayın:</p>
+            <p>@Model.Hello <strong>@Model.Username</strong>,</p>
+            <p>@Model.ThankForCreateAccount</p>
+            <p>E-posta adresinizi doğrulamak için aşağıdaki butona tıklayın:</p>
         </div>
         <div class="email-button">
-            <a href="@Model.VerificationLink" target="_blank">E-posta Adresimi Doğrula</a>
+            <a href="@Model.VerificationLink" target="_blank">@Model.VerifyMyMail</a>
         </div>
         <div class="email-content">
-            <p>Eğer buton çalışmazsa, aşağıdaki bağlantıyı tarayıcınıza kopyalayıp yapıştırabilirsiniz:</p>
+            <p>@Model.BtnWorkMsg:</p>
             <p><a href="@Model.VerificationLink" target="_blank">@Model.VerificationLink</a></p>
-            <p>Bu işlem hesabınızı güvende tutmak ve hizmetlerimizden tam olarak yararlanabilmeniz için gereklidir.</p>
-            <p>Eğer bu e-postayı siz başlatmadıysanız, lütfen bu mesajı göz ardı edin veya bizimle iletişime geçin: <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>.</p>
+            <p>@Model.AccountMsg</p>
+            <p>@Model.IgnoreMsg</p>
         </div>
         <div class="email-footer">
-            <p>Bu bağlantı <strong>@Model.ExpirationTime</strong> içinde geçerlidir.</p>
-            <p>Teşekkürler,<br>@Model.CompanyName Ekibi</p>
+            <p>@Model.ValidTimeHtml</p>
+            <p>@Model.ThanksMsg</p>
         </div>
     </div>
 </body>
