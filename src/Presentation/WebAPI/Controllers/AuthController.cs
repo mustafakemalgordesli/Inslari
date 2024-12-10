@@ -1,5 +1,6 @@
 ﻿using Application.Features.Auth.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -20,6 +21,17 @@ namespace WebAPI.Controllers
             return Ok(await mediator.Send(request));
         }
 
-        
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> LoginUserWithRefreshToken([FromBody] LoginUserWithRefreshToken request)
+        {
+            return Ok(await mediator.Send(request));
+        }
+
+        [Authorize]
+        [HttpPost("logout/{token}")]
+        public async Task<IActionResult> Logout(string token)
+        {
+            return Ok(await mediator.Send(new LogoutCommand(token)));
+        }
     }
 }

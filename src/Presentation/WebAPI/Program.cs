@@ -31,6 +31,7 @@ builder.Services.AddSingleton<ITemplateProvider>(new TemplateProvider(templateDi
 
 builder.Services.AddProblemDetails();
 builder.Services.AddHealthChecks();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.ConfigureCors(builder.Configuration, MyAllowSpecificOrigins);
 builder.Services.ConfigureAuthentication(builder.Configuration);

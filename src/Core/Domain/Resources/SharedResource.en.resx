@@ -120,6 +120,9 @@
   <data name="AccountMsg" xml:space="preserve">
     <value>This process is necessary to keep your account safe and to take full advantage of our services.</value>
   </data>
+  <data name="AuthError" xml:space="preserve">
+    <value>Authorization failed.</value>
+  </data>
   <data name="BtnWorkMsg" xml:space="preserve">
     <value>If the button does not work, you can copy and paste the link below into your browser.</value>
   </data>

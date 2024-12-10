@@ -25,7 +25,7 @@ public class TokenService(IOptions<JwtOptions> options) : ITokenService
         var claims = new List<Claim>
         {
             new Claim("email", user.Email),
-            new Claim("id", user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim("username", user.Username),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };

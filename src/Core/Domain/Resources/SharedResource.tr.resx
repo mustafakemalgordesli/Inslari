@@ -120,6 +120,9 @@
   <data name="AccountMsg" xml:space="preserve">
     <value>Bu işlem hesabınızı güvende tutmak ve hizmetlerimizden tam olarak yararlanabilmeniz için gereklidir.</value>
   </data>
+  <data name="AuthError" xml:space="preserve">
+    <value>Yetkilendirme başarısız oldu.</value>
+  </data>
   <data name="BtnWorkMsg" xml:space="preserve">
     <value>Eğer buton çalışmazsa, aşağıdaki bağlantıyı tarayıcınıza kopyalayıp yapıştırabilirsiniz</value>
   </data>
