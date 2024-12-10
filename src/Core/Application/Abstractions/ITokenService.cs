@@ -4,6 +4,7 @@ namespace Application.Abstractions;
 
 public interface ITokenService
 {
-    string CreateToken(User user, int addMonth = 1);
+    string CreateToken(User user);
+    string GenerateRefreshToken();
     bool VerifyToken(string token);
 }

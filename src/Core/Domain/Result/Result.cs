@@ -49,14 +49,14 @@ public class Result<TValue> : Result
         _value = default;
     }
 
-    [NotNull]
-    public TValue Value => IsSuccess
-        ? _value!
-        : throw new InvalidOperationException("InvalidError");
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public TValue? Value => IsSuccess
+        ? _value is null ? throw new Exception("InvalidError") : _value
+        : default;
 
 
     public static implicit operator Result<TValue>(TValue? value) =>
-        value is not null ? Success(value) : Failure(new Error("NullError", "Value cannat be null", Enums.ErrorTypes.Failure));
+        value is not null ? Success(value) : Failure(new Error("NullError", "Value cannot be null", Enums.ErrorTypes.Failure));
 
     public static Result<TValue> ValidationFailure(Error error) =>
         new(default, false, error);

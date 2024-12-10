@@ -13,5 +13,13 @@ namespace WebAPI.Controllers
         {
             return Ok(await mediator.Send(request));
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginCommand request)
+        {
+            return Ok(await mediator.Send(request));
+        }
+
+        
     }
 }

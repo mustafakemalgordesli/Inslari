@@ -10,7 +10,7 @@ public sealed class TransactionalPipelineBehavior<TRequest, TResponse>(
     ITransactionUnitOfWork unitOfWork,
     ILogger<TransactionalPipelineBehavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ITransactionalCommand<TRequest>
+    where TRequest : ITransactionalCommand<TResponse>
 {
     public async Task<TResponse> Handle(
         TRequest request,

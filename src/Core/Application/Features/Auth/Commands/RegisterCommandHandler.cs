@@ -8,14 +8,14 @@ using Domain.UnitOfWork;
 
 namespace Application.Features.Auth.Commands;
 
-public class RegisterCommand : ICommand<Result<AuthResponse>>
+public class RegisterCommand : ITransactionalCommand<Result<AuthResponse>>
 {
     public required string Email { get; set; }
     public required string Username { get; set; }
     public required string Password { get; set; }
 }
 
-public class RegisterCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, ITokenService tokenService, IPasswordHasher passwordHasher) : ICommandHandler<RegisterCommand, Result<AuthResponse>>
+public class RegisterCommandHandler(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IUnitOfWork unitOfWork, ITokenService tokenService, IPasswordHasher passwordHasher) : ITransactionalCommandHandler<RegisterCommand, Result<AuthResponse>>
 {
     public async Task<Result<AuthResponse>> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -38,7 +38,18 @@ public class RegisterCommandHandler(IUserRepository userRepository, IUnitOfWork 
         
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        var response = new AuthResponse { AccessToken = tokenService.CreateToken(user), RefreshToken = tokenService.CreateToken(user, addMonth: 12) };
+        var refreshToken = new RefreshToken
+        {
+            UserId = user.Id,
+            Token = tokenService.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddMonths(1)
+        };
+
+        refreshToken = refreshTokenRepository.Add(refreshToken);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var response = new AuthResponse { AccessToken = tokenService.CreateToken(user), RefreshToken = refreshToken.Token };
 
         return Result<AuthResponse>.Success(response);
     }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace Infrastructure.Services;
 
@@ -19,7 +20,7 @@ public class JwtOptions
 
 public class TokenService(IOptions<JwtOptions> options) : ITokenService
 {
-    public string CreateToken(User user, int addMonth = 1)
+    public string CreateToken(User user)
     {
         var claims = new List<Claim>
         {
@@ -36,11 +37,18 @@ public class TokenService(IOptions<JwtOptions> options) : ITokenService
             options.Value.Issuer,
             options.Value.Audience,
             claims,
-            expires: DateTime.Now.AddMonths(addMonth),
+            expires: DateTime.UtcNow.AddMinutes(15),
             signingCredentials: creds
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+
+
+    public string GenerateRefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
 
     public bool VerifyToken(string token)

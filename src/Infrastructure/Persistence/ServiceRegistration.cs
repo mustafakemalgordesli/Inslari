@@ -19,5 +19,6 @@ public static class ServiceRegistration
         services.AddScoped<ITransactionUnitOfWork, EfTransactionUnitOfWork>();
 
         services.AddScoped<IUserRepository, EfUserRepository>();
+        services.AddScoped<IRefreshTokenRepository, EfRefreshTokenRepository>();
     }
 }

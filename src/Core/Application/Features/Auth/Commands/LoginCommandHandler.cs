@@ -1,8 +1,10 @@
 ﻿using Application.Abstractions;
 using Application.Responses;
+using Domain.Entities;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Result;
+using Domain.UnitOfWork;
 using MediatR;
 
 namespace Application.Features.Auth.Commands;
@@ -14,7 +16,7 @@ public class LoginCommand : IRequest<Result<AuthResponse>>
 }
 
 
-public class LoginCommandHandler(IUserRepository userRepository, ITokenService tokenService, IPasswordHasher passwordHasher) : IRequestHandler<LoginCommand, Result<AuthResponse>>
+public class LoginCommandHandler(IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IUnitOfWork unitOfWork, ITokenService tokenService, IPasswordHasher passwordHasher) : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
     public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -24,7 +26,18 @@ public class LoginCommandHandler(IUserRepository userRepository, ITokenService t
 
         if (!passwordHasher.VerifyPassword(user.Password, request.Password)) return Result<AuthResponse>.Failure(UserErrors.PasswordWrong);
 
-        var response = new AuthResponse { AccessToken = tokenService.CreateToken(user), RefreshToken = tokenService.CreateToken(user, addMonth: 12) };
+        var refreshToken = new RefreshToken
+        {
+            UserId = user.Id,
+            Token = tokenService.GenerateRefreshToken(),
+            ExpiresOnUtc = DateTime.UtcNow.AddMonths(1)
+        };
+
+        refreshToken = refreshTokenRepository.Add(refreshToken);
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var response = new AuthResponse { AccessToken = tokenService.CreateToken(user), RefreshToken = refreshToken.Token };
 
         return Result<AuthResponse>.Success(response);
     }

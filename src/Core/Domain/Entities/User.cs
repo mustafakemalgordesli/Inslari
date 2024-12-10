@@ -12,6 +12,7 @@ public class User : BaseEntity
     public required string Password { get; set; }
     public string? ImageUrl { get; set; }
     public bool IsActive { get; set; }
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = [];
 
     public void UserRegistered()
     {

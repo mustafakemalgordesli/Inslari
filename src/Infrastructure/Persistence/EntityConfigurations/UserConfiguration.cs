@@ -15,7 +15,12 @@ public class UserConfiguration : BaseEntityConfiguration<User>
         builder.Property(x => x.Password).IsRequired();
         builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
 
-        builder.HasQueryFilter(x => x.IsDeleted == false);
+        builder
+            .HasMany(u => u.RefreshTokens)
+            .WithOne(r => r.User)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired();
 
         builder.ToTable("users", InslariDbContext.DEFAULT_SCHEMA);
     }
