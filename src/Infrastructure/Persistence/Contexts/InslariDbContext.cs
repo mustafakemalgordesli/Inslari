@@ -14,11 +14,17 @@ public class InslariDbContext(DbContextOptions<InslariDbContext> dbContextOption
 
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Language> Languages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Language>().HasData(
+            new Language { Id = new Guid("7b2df0bb-a235-4a7f-a37c-6018a942f32e"), Code = "en", Name = "English", IsActive = true, IsDefault = true },
+            new Language { Id = new Guid("44b4eccb-e0eb-45b2-b925-f1fbf449634d"), Code = "tr", Name = "Türkçe", IsActive = true, IsDefault = false }
+        );
     }
 
     public override int SaveChanges()

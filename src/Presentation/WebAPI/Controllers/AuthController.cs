@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost("logout/{token}")]
+        [HttpDelete("logout/{token}")]
         public async Task<IActionResult> Logout(string token)
         {
             return Ok(await mediator.Send(new LogoutCommand(token)));

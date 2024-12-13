@@ -20,7 +20,7 @@ public class LoginCommandHandler(IUserRepository userRepository, IRefreshTokenRe
 {
     public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetAsync(x => x.Email == request.Username || x.Username == request.Username);
+        var user = await GetUserByUsernameOrEmailAsync(request.Username);
 
         if (user is null) return Result<AuthResponse>.Failure(UserErrors.UserNotFound);
 
@@ -40,5 +40,13 @@ public class LoginCommandHandler(IUserRepository userRepository, IRefreshTokenRe
         var response = new AuthResponse { AccessToken = tokenService.CreateToken(user), RefreshToken = refreshToken.Token };
 
         return Result<AuthResponse>.Success(response);
+    }
+
+    private async Task<User?> GetUserByUsernameOrEmailAsync(string usernameOrEmail)
+    {
+        if (usernameOrEmail.Contains("@"))
+            return await userRepository.GetAsync(u => u.Email == usernameOrEmail);
+
+        return await userRepository.GetAsync(u => u.Username == usernameOrEmail);
     }
 }

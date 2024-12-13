@@ -2,6 +2,7 @@
 using Application.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using FluentValidation;
 
 namespace Application;
 
@@ -13,5 +14,8 @@ public static class ServiceRegistration
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionalPipelineBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+        services.AddValidatorsFromAssembly(assembly);
     }
 }
