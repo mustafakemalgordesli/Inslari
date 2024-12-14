@@ -141,6 +141,12 @@
   <data name="MailConfirmation" xml:space="preserve">
     <value>E-posta Adresinizi Doğrulayın</value>
   </data>
+  <data name="MessageDelivered" xml:space="preserve">
+    <value>Mesajınız iletildi.</value>
+  </data>
+  <data name="Contact.MessageNotDelivered" xml:space="preserve">
+    <value>Mesajınız iletilemedi.</value>
+  </data>
   <data name="ThankForCreateAccount" xml:space="preserve">
     <value>Hesabınızı başarıyla oluşturduğunuz için teşekkür ederiz!</value>
   </data>

@@ -6,7 +6,7 @@ namespace WebAPI.Extensions;
 
 public static class MassTransitExtension
 {
-    public static void CConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddMassTransit(busConfigurator =>
          {

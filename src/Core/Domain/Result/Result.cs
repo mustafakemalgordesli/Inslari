@@ -6,14 +6,14 @@ namespace Domain.Result;
 
 public class Result
 {
-    protected Result(bool isSuccess, Error error)
+    protected Result(bool isSuccess, string message = "", Error error)
     {
         if (isSuccess && error != Error.None ||
             !isSuccess && error == Error.None)
         {
             throw new ArgumentException("InvalidError", nameof(error));
         }
-
+        Message = message;
         IsSuccess = isSuccess;
         Error = error;
     }
@@ -24,14 +24,17 @@ public class Result
     }
 
     public bool IsSuccess { get; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public string? Message { get; }
 
     public bool IsFailure => !IsSuccess;
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public Error Error { get; }
 
-    public static Result Success() => new(true, Error.None);
+    public static Result Success() => new(true, error: Error.None);
+    public static Result Success(string message) => new(true, message, Error.None);
 
-    public static Result Failure(Error error) => new(false, error);
+    public static Result Failure(Error error) => new(false, error: error);
 }
 
 public class Result<TValue> : Result
@@ -39,12 +42,12 @@ public class Result<TValue> : Result
     private readonly TValue? _value;
 
     protected Result(TValue? value, bool isSuccess, Error error)
-        : base(isSuccess, error)
+        : base(isSuccess, error: error)
     {
         _value = value;
     }
 
-    protected Result(Error error) : base(false, error)
+    protected Result(Error error) : base(false, error: error)
     {
         _value = default;
     }

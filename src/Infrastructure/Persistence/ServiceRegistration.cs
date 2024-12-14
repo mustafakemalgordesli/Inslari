@@ -21,5 +21,6 @@ public static class ServiceRegistration
         services.AddScoped<IUserRepository, EfUserRepository>();
         services.AddScoped<IRefreshTokenRepository, EfRefreshTokenRepository>();
         services.AddScoped<ILanguageRepository, EfLanguageRepository>();
+        services.AddScoped<IContactRepository, EfContactRepository>();  
     }
 }

@@ -8,7 +8,7 @@ public static class RateLimiterExtension
     public static void ConfigureRateLimiter(this IServiceCollection services)
     {
         services.AddRateLimiter(options =>
-         {
+        {
             options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>((httpContext) =>
             {
                 var route = httpContext.GetEndpoint()?.DisplayName ?? "default";
@@ -31,6 +31,6 @@ public static class RateLimiterExtension
                 config.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                 config.QueueLimit = 2;
             });
-         });
+        });
     }
 }

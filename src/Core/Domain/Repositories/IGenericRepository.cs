@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Result;
 using System.Linq.Expressions;
 
 namespace Domain.Repositories;
@@ -18,4 +19,5 @@ public interface IGenericRepository<TEntity> : IDisposable where TEntity : BaseE
     void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     Task<bool> ExistsAsync(Guid id, CancellationToken token = default);
+    Task<PaginatedResult<TEntity>> GetPaginatedAsync(int page = 1, int pageSize = 10, Expression<Func<TEntity, bool>>? predicate = null);
 }

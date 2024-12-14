@@ -1,7 +1,9 @@
 ﻿using Domain.Common;
 using Domain.Repositories;
+using Domain.Result;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Persistence.Repositories.EntityFramework;
@@ -110,5 +112,28 @@ public class EfGenericRepository<TEntity>(InslariDbContext dbContext) : IGeneric
     public async Task<bool> ExistsAsync(Guid id, CancellationToken token = default)
     {
         return await DbSet.AnyAsync(r => r.Id == id, token);
+    }
+
+    public async Task<PaginatedResult<TEntity>> GetPaginatedAsync(int page = 1, int pageSize = 10, Expression<Func<TEntity, bool>>? predicate = null)
+    {
+        IQueryable<TEntity> query = DbSet;
+
+        if (predicate != null)
+        {
+            query = query.Where(predicate);
+        }
+
+        var totalCount = await query.CountAsync();
+        var data = await query.Skip((page - 1) * pageSize)
+                              .Take(pageSize)
+                              .ToListAsync(); 
+
+        return new PaginatedResult<TEntity>
+        {
+            Data = data,
+            TotalCount = totalCount,
+            PageSize = pageSize,
+            CurrentPage = page
+        };
     }
 }

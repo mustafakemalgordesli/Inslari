@@ -141,6 +141,12 @@
   <data name="MailConfirmation" xml:space="preserve">
     <value>Email Verification</value>
   </data>
+  <data name="MessageDelivered" xml:space="preserve">
+    <value>Your message has been delivered.</value>
+  </data>
+  <data name="Contact.MessageNotDelivered" xml:space="preserve">
+    <value>Your message could not be delivered.</value>
+  </data>
   <data name="ThankForCreateAccount" xml:space="preserve">
     <value>Thank you for successfully creating your account!</value>
   </data>
